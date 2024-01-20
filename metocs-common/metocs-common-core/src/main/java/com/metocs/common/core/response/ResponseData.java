@@ -1,4 +1,4 @@
-package com.metocs.common.response;
+package com.metocs.common.core.response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.metocs.web.exception;
+package com.metocs.common.core.exception;
 
 public class CommonException extends RuntimeException{
 

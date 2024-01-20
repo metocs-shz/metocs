@@ -1,8 +1,9 @@
 package com.metocs.web.exception;
 
 
-import com.metocs.common.response.ResponseData;
-import com.metocs.common.response.ResponseEnum;
+import com.metocs.common.core.exception.CommonException;
+import com.metocs.common.core.response.ResponseData;
+import com.metocs.common.core.response.ResponseEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.ObjectError;

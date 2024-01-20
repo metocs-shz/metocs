@@ -1,4 +1,4 @@
-package com.metocs.common.response;
+package com.metocs.common.core.response;
 
 public enum ResponseEnum {
 
