@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2f480d2-46fd-4974-a53e-1329fb503390" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/metocs_admin/src/App.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/metocs_admin/src/main.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +21,20 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "metocs-shz"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="7042b6fa-f609-4bd6-9fb2-53e9ada14558" />
+        <option name="url" value="https://github.com/metocs-shz/metocs.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -87,7 +100,7 @@
       <updated>1705650579861</updated>
       <workItem from="1705650582016" duration="4644000" />
       <workItem from="1705728435598" duration="170000" />
-      <workItem from="1705728613936" duration="308000" />
+      <workItem from="1705728613936" duration="585000" />
     </task>
     <servers />
   </component>
