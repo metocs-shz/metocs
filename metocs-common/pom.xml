@@ -14,9 +14,9 @@
     <version>1.0-RELEASE</version>
 
     <modules>
-        <module>metocs-common-web</module>
         <module>metocs-common-datasource</module>
         <module>metocs-common-core</module>
+        <module>metocs-common-oauth</module>
     </modules>
 
     <properties>

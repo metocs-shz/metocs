@@ -18,4 +18,7 @@ public final class BaseConstant {
     public static final String X_INNER_API = "X-INNER-API";
 
 
+    public static final String SMS_TOKEN = "sms:";
+
+
 }

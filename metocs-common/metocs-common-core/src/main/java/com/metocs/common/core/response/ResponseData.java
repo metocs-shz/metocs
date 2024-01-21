@@ -12,7 +12,7 @@ public class ResponseData<T> implements Serializable {
     /**
      * 状态码
      */
-    private String code;
+    private Integer code;
 
     /**
      * 信息
@@ -25,11 +25,11 @@ public class ResponseData<T> implements Serializable {
     private T data;
 
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
