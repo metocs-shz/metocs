@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "open",
+      "type": "com.metocs.common.oauth.open.OpenApiProperties",
+      "sourceType": "com.metocs.common.oauth.open.OpenApiProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "open.apis",
+      "type": "java.util.Set<java.lang.String>",
+      "sourceType": "com.metocs.common.oauth.open.OpenApiProperties"
+    }
+  ],
+  "hints": []
+}

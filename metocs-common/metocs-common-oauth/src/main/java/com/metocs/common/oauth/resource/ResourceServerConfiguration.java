@@ -2,28 +2,26 @@ package com.metocs.common.oauth.resource;
 
 import com.metocs.common.oauth.handler.MyAccessDeniedHandler;
 import com.metocs.common.oauth.handler.MyAuthenticationEntryPoint;
+import com.metocs.common.oauth.introspect.RedisOpaqueTokenIntrospector;
 import com.metocs.common.oauth.open.OpenApiProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.io.IOException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.interfaces.RSAPublicKey;
+import org.springframework.stereotype.Component;
 
 /**
  * @author metocs
  * @date 2024/1/21 10:31
  */
+
+@Component
+@EnableWebSecurity
 public class ResourceServerConfiguration {
 
 
@@ -31,6 +29,7 @@ public class ResourceServerConfiguration {
     private OpenApiProperties openApiProperties;
 
 
+    @Bean
     @ConditionalOnMissingBean
     public SecurityFilterChain httpSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
@@ -42,18 +41,15 @@ public class ResourceServerConfiguration {
         httpSecurity.oauth2ResourceServer(resourceServer -> resourceServer
                 .accessDeniedHandler(new MyAccessDeniedHandler())
                 .authenticationEntryPoint(new MyAuthenticationEntryPoint())
-                .jwt(Customizer.withDefaults())
+                .opaqueToken(opaque -> opaque.introspector(new RedisOpaqueTokenIntrospector()))
         );
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         return httpSecurity.build();
     }
 
     @Bean
-    public JwtDecoder jwtDecoder() throws CertificateException, IOException {
-        CertificateFactory certificateFactory = CertificateFactory.getInstance("x.509");
-        ClassPathResource resource = new ClassPathResource("public.jks");
-        Certificate certificate = certificateFactory.generateCertificate(resource.getInputStream());
-        RSAPublicKey publicKey = (RSAPublicKey) certificate.getPublicKey();
-        return NimbusJwtDecoder.withPublicKey(publicKey).build();
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
+
 }

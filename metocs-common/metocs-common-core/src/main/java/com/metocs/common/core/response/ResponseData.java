@@ -90,6 +90,15 @@ public class ResponseData<T> implements Serializable {
         return result;
     }
 
+    public static <T> ResponseData<T> fail(ResponseEnum responseEnum,String message,T data) {
+        logger.error("请求出现异常 {}", message);
+        ResponseData<T> result = new ResponseData<>();
+        result.detail(responseEnum);
+        result.setMessage(message);
+        result.setData(data);
+        return result;
+    }
+
     @Override
     public String toString() {
         return "ResponseData{" +

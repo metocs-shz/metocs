@@ -11,13 +11,6 @@
     </parent>
 
     <artifactId>metocs-authorization-server</artifactId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>authorization-server</module>
-        <module>authorization-api</module>
-    </modules>
-
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -26,12 +19,29 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.metocs</groupId>
+            <artifactId>metocs-common-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.metocs</groupId>
+            <artifactId>metocs-common-cache</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.metocs</groupId>
             <artifactId>metocs-common-oauth</artifactId>
-            <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.metocs</groupId>
+            <artifactId>metocs-common-datasource</artifactId>
+        </dependency>
+
     </dependencies>
+
 
 
 </project>

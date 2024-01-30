@@ -25,7 +25,7 @@ public class CaffeineSubscribe implements MessageListener {
     public void onMessage(Message messageData, byte[] pattern) {
         String channel = new String(messageData.getChannel());
         String message = new String(messageData.getBody());
-        logger.info("接收到订阅通道： {} 消息，消息内容为： {}",channel,message);
+        logger.info("接收到清理Caffeine缓存消息 订阅通道： {} ，消息内容为： {}",channel,message);
         cache.invalidate(message);
     }
 }

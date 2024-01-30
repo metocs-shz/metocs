@@ -25,7 +25,7 @@
         <spring-cloud.version>2022.0.4</spring-cloud.version>
         <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
 
-        <spring-authorization-version>1.0.1</spring-authorization-version>
+        <spring-authorization-version>1.2.1</spring-authorization-version>
 
         <!--分离出这两个东西，是为了能够在 spring cloud alibaba不更新的时候，及时更新-->
         <seata.version>1.6.1</seata.version>
@@ -34,6 +34,9 @@
         <mysql-connector>8.0.31</mysql-connector>
         <druid-spring-boot-starter>1.2.16</druid-spring-boot-starter>
         <spring-Mybatis-starter>3.0.1</spring-Mybatis-starter>
+        <spring-Mybatis-plus-starter>3.5.5</spring-Mybatis-plus-starter>
+
+        <common-version>1.0-RELEASE</common-version>
 
         <fastJson>2.0.22</fastJson>
 
@@ -115,9 +118,41 @@
             </dependency>
 
             <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${spring-Mybatis-plus-starter}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.alibaba.fastjson2</groupId>
                 <artifactId>fastjson2</artifactId>
                 <version>${fastJson}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.metocs</groupId>
+                <artifactId>metocs-common-core</artifactId>
+                <version>${common-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.metocs</groupId>
+                <artifactId>metocs-common-cache</artifactId>
+                <version>${common-version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.metocs</groupId>
+                <artifactId>metocs-common-oauth</artifactId>
+                <version>${common-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.metocs</groupId>
+                <artifactId>metocs-common-datasource</artifactId>
+                <version>${common-version}</version>
             </dependency>
 
         </dependencies>

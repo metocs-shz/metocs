@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: authorization
+  cloud:
+    nacos:
+      server-addr: 192.168.31.252:8848
+      config:
+        namespace: online
+        group: online
+
+  config:
+    import:
+      - nacos:authorization.yml
+
+
+oauth2:
+  clients:
+    - name: 后台客户端
+      uri:  http://127.0.0.1:8080/oauth2/token
+      redirect-uri: http://127.0.0.1:8080/code
+      client-id: clientId
+      client-secret: clientSecret

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,19 +38,7 @@ public class RedisService {
         return redisTemplate.hasKey(key);
     }
 
-    public String getString(String key){
-        Object data = redisTemplate.opsForValue().get(key);
-        return data == null?"":data.toString();
-    }
 
-
-    public void setString(String key,String data){
-        this.setStringAndTTL(key,data,500L);
-    }
-
-    public void setStringAndTTL(String key,String data,Long ttl){
-        redisTemplate.opsForValue().set(key,data,ttl);
-    }
 
     public void set(String key,Object data,Long ttl){
         redisTemplate.opsForValue().set(key,data, Duration.of(ttl, ChronoUnit.SECONDS));
@@ -57,6 +46,10 @@ public class RedisService {
 
     public Object get(String key){
         return redisTemplate.opsForValue().get(key);
+    }
+
+    public List<Object> mGet(String... key) {
+        return redisTemplate.opsForValue().multiGet(List.of(key));
     }
 
     public Boolean setNx(String key,String data){
@@ -92,18 +85,16 @@ public class RedisService {
         return redisTemplate.opsForList().leftPop(key);
     }
 
-    public String lpopString(String key) {
-        Object data = redisTemplate.opsForList().leftPop(key);
-        return data == null?"":data.toString();
+    public Object lpopString(String key) {
+         return redisTemplate.opsForList().leftPop(key);
     }
 
     public Object rpop(String key) {
         return redisTemplate.opsForList().rightPop(key);
     }
 
-    public String rpopString(String key) {
-        Object data = redisTemplate.opsForList().rightPop(key);
-        return data == null?"":data.toString();
+    public Object rpopString(String key) {
+        return redisTemplate.opsForList().rightPop(key);
     }
 
     public void sadd(String key,Object... data) {
@@ -114,9 +105,8 @@ public class RedisService {
         return redisTemplate.opsForSet().pop(key);
     }
 
-    public String spopString(String key) {
-        Object pop = redisTemplate.opsForSet().pop(key);
-        return pop == null?"":pop.toString();
+    public Object spopString(String key) {
+        return redisTemplate.opsForSet().pop(key);
     }
 
 
