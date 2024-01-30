@@ -3,6 +3,7 @@ package com.metocs.authorization.controller;
 import com.alibaba.fastjson2.JSON;
 import com.metocs.authorization.properties.ClientProperties;
 import com.metocs.authorization.properties.SecurityOauthProperties;
+import com.metocs.common.core.constant.BaseConstant;
 import com.metocs.common.core.response.ResponseData;
 import com.metocs.common.core.response.ResponseEnum;
 import com.metocs.common.core.utils.Base64Utils;
@@ -10,6 +11,7 @@ import com.metocs.common.core.utils.HttpClient;
 import com.metocs.common.oauth.model.AccessModel;
 import com.metocs.common.oauth.service.RedisOAuth2AuthorizationService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,9 +32,9 @@ import java.util.Map;
  * @date 2024/1/23 22:35
  */
 @RestController
-public class Controller {
+public class OauthController {
 
-    private final static Logger logger = LoggerFactory.getLogger(Controller.class);
+    private final static Logger logger = LoggerFactory.getLogger(OauthController.class);
 
 
     @Autowired
@@ -72,6 +75,17 @@ public class Controller {
             return ResponseData.fail(ResponseEnum.HTTP_MESSAGE_NOT_READABLE,"鉴权信息获取失败",accessModel);
         }
         return ResponseData.success(accessModel);
+    }
+
+    @PostMapping(value = "logout")
+    public ResponseData<AccessModel> logout(HttpServletRequest request){
+        String header = request.getHeader(BaseConstant.AUTHORIZATION);
+        OAuth2Authorization oAuth2Authorization = redisOAuth2AuthorizationService.findByToken(header, OAuth2TokenType.ACCESS_TOKEN);
+        if (oAuth2Authorization == null){
+            return ResponseData.success();
+        }
+        redisOAuth2AuthorizationService.remove(oAuth2Authorization);
+        return ResponseData.success();
     }
 
 

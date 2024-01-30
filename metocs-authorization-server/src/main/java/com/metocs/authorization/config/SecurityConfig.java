@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
@@ -37,10 +36,6 @@ public class SecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
 
     @Bean
     @Order(1)
@@ -71,17 +66,16 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
             throws Exception {
-        http
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(new AntPathRequestMatcher("/code","/captcha/login")).permitAll()
+        http.authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers(new AntPathRequestMatcher("/code"),
+                                new AntPathRequestMatcher("/captcha/login"),
+                                new AntPathRequestMatcher("/mobile/login")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userDetailsService)
                 .csrf(AbstractHttpConfigurer::disable)
-                // Form login handles the redirect to the login page from the
-                // authorization server filter chain
-                .formLogin(Customizer.withDefaults());
-
+                .logout(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable);
         return http.build();
     }
 

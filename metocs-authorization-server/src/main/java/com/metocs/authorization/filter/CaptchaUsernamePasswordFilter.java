@@ -7,6 +7,7 @@ import com.metocs.common.core.utils.IpUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.ProviderManager;
@@ -72,23 +73,24 @@ public class CaptchaUsernamePasswordFilter extends AbstractAuthenticationProcess
         }
 
         // 获得请求验证码值
-//        String code = request.getParameter(SPRING_SECURITY_FORM_CODE_KEY);
-//        if (!StringUtils.hasText(code)){
-//            throw new AuthenticationServiceException("请输入验证码!");
-//        }
-//
-//        HttpSession session = request.getSession();
-//        String sessionVerifyCode = (String) session.getAttribute(SPRING_SECURITY_FORM_SESSION_CODE_KEY);
-//        if(!StringUtils.hasText(sessionVerifyCode)){
-//            throw new AuthenticationServiceException("请重新申请验证码!");
-//        }
+        String code = request.getParameter(SPRING_SECURITY_FORM_CODE_KEY);
+        if (!StringUtils.hasText(code)){
+            throw new AuthenticationServiceException("请输入验证码!");
+        }
+
+        HttpSession session = request.getSession();
+        String sessionVerifyCode = (String) session.getAttribute(SPRING_SECURITY_FORM_SESSION_CODE_KEY);
+        if(!StringUtils.hasText(sessionVerifyCode)){
+            throw new AuthenticationServiceException("请重新申请验证码!");
+        }
 
 
-//        if (!sessionVerifyCode.equalsIgnoreCase(code)) {
-//            throw new AuthenticationServiceException("验证码错误!");
-//        }
-        // 验证码验证成功，清除 session 中的验证码
-  //      session.removeAttribute(SPRING_SECURITY_FORM_SESSION_CODE_KEY);
+        if (!sessionVerifyCode.equalsIgnoreCase(code)) {
+            throw new AuthenticationServiceException("验证码错误!");
+        }
+
+        //   验证码验证成功，清除 session 中的验证码
+        session.removeAttribute(SPRING_SECURITY_FORM_SESSION_CODE_KEY);
 
 
         UsernamePasswordAuthenticationToken captchaUsernamePasswordToken = UsernamePasswordAuthenticationToken.unauthenticated(username,password);

@@ -63,10 +63,10 @@ public class RedisOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
             if (!CollectionUtils.isEmpty(accessToken.getClaims())) {
                 Instant notBefore = (Instant) accessToken.getClaims().get("nbf");
-                Instant plus = Instant.now().plus(1, ChronoUnit.HOURS);
+                Instant plus = Instant.now().plus(10, ChronoUnit.MINUTES);
                 boolean before = plus.isBefore(notBefore);
                 if (before){
-                    throw new BadOpaqueTokenException("Token 时间参数错误！服务器时间超时一小时");
+                    throw new BadOpaqueTokenException("Token 时间参数错误！服务器时间超时10分钟");
                 }
             }else {
                 throw new BadOpaqueTokenException("Token 时间参数错误！");

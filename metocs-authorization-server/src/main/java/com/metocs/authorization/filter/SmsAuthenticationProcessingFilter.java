@@ -41,8 +41,6 @@ public class SmsAuthenticationProcessingFilter extends AbstractAuthenticationPro
     }
 
 
-
-
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         if (!"POST".equals(request.getMethod())) {
