@@ -1,5 +1,10 @@
 package com.metocs.authorization.config;
 
+import com.metocs.authorization.filter.CaptchaUsernamePasswordFilter;
+import com.metocs.authorization.filter.SmsAuthenticationProcessingFilter;
+import com.metocs.authorization.provider.MyDaoAuthenticationProvider;
+import com.metocs.authorization.provider.SmsCodeAuthenticationProvider;
+import com.metocs.common.cache.RedisService;
 import com.metocs.common.oauth.handler.MyAccessDeniedHandler;
 import com.metocs.common.oauth.introspect.RedisOpaqueTokenIntrospector;
 import com.metocs.common.oauth.mapper.Oauth2ClientMapper;
@@ -9,6 +14,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,6 +30,9 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author metocs
  * @date 2024/1/21 10:25
@@ -36,6 +46,9 @@ public class SecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private RedisService redisService;
 
     @Bean
     @Order(1)
@@ -76,7 +89,20 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable);
+
+        ProviderManager providerManager = providerManager();
+        // 添加用户名密码登录方式
+        http.addFilter(new CaptchaUsernamePasswordFilter(providerManager));
+        // 添加手机号验证码登录方式
+        http.addFilter(new SmsAuthenticationProcessingFilter(providerManager));
         return http.build();
+    }
+
+    public ProviderManager providerManager(){
+        List<AuthenticationProvider> providers = new ArrayList<>();
+        providers.add(new MyDaoAuthenticationProvider());
+        providers.add(new SmsCodeAuthenticationProvider(userDetailsService,redisService));
+        return new ProviderManager(providers);
     }
 
 

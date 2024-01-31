@@ -17,9 +17,9 @@ import org.springframework.util.StringUtils;
  */
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    private RedisService redisService;
+    private final RedisService redisService;
 
     public SmsCodeAuthenticationProvider(UserDetailsService userDetailsService, RedisService redisService) {
         this.userDetailsService = userDetailsService;

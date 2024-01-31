@@ -3,6 +3,7 @@ package com.metocs.authorization.controller;
 import com.alibaba.fastjson2.JSON;
 import com.metocs.authorization.properties.ClientProperties;
 import com.metocs.authorization.properties.SecurityOauthProperties;
+import com.metocs.authorization.vo.CaptchaVo;
 import com.metocs.common.core.constant.BaseConstant;
 import com.metocs.common.core.response.ResponseData;
 import com.metocs.common.core.response.ResponseEnum;
@@ -42,6 +43,14 @@ public class OauthController {
 
     @Autowired
     private RedisOAuth2AuthorizationService redisOAuth2AuthorizationService;
+
+    @GetMapping(value = "captcha")
+    public ResponseData<CaptchaVo> captcha(){
+
+
+
+        return ResponseData.success();
+    }
 
 
     @GetMapping(value = "code")

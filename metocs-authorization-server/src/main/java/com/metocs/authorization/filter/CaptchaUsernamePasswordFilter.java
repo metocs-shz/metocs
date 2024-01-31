@@ -2,7 +2,6 @@ package com.metocs.authorization.filter;
 
 import com.metocs.authorization.handler.MyAuthenticationFailureHandler;
 import com.metocs.authorization.handler.MySuccessHandler;
-import com.metocs.authorization.provider.MyDaoAuthenticationProvider;
 import com.metocs.common.core.utils.IpUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,13 +9,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StringUtils;
 
@@ -46,13 +43,8 @@ public class CaptchaUsernamePasswordFilter extends AbstractAuthenticationProcess
 
     public CaptchaUsernamePasswordFilter(AuthenticationManager authenticationManager) {
         super(DEFAULT_ANT_PATH_REQUEST_MATCHER, authenticationManager);
-        setSecurityContextRepository(new HttpSessionSecurityContextRepository());
-
-        MyDaoAuthenticationProvider myDaoAuthenticationProvider = new MyDaoAuthenticationProvider();
-        ProviderManager providerManager = new ProviderManager(myDaoAuthenticationProvider);
         this.setAuthenticationSuccessHandler(new MySuccessHandler());
         this.setAuthenticationFailureHandler(new MyAuthenticationFailureHandler());
-        this.setAuthenticationManager(providerManager);
     }
 
     @Override

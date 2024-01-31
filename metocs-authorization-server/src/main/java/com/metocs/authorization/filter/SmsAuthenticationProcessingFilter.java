@@ -32,6 +32,7 @@ public class SmsAuthenticationProcessingFilter extends AbstractAuthenticationPro
 
     public SmsAuthenticationProcessingFilter() {
         super(DEFAULT_ANT_PATH_REQUEST_MATCHER);
+
     }
 
     public SmsAuthenticationProcessingFilter(AuthenticationManager authenticationManager) {
@@ -39,6 +40,7 @@ public class SmsAuthenticationProcessingFilter extends AbstractAuthenticationPro
         this.setAuthenticationSuccessHandler(new MySuccessHandler());
         this.setAuthenticationFailureHandler(new MyAuthenticationFailureHandler());
     }
+
 
 
     @Override
