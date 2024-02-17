@@ -11,9 +11,11 @@ import com.metocs.common.core.utils.Base64Utils;
 import com.metocs.common.core.utils.HttpClient;
 import com.metocs.common.oauth.model.AccessModel;
 import com.metocs.common.oauth.service.RedisOAuth2AuthorizationService;
+import com.wf.captcha.ArithmeticCaptcha;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,14 +46,17 @@ public class OauthController {
     @Autowired
     private RedisOAuth2AuthorizationService redisOAuth2AuthorizationService;
 
+
     @GetMapping(value = "captcha")
-    public ResponseData<CaptchaVo> captcha(){
-
-
-
-        return ResponseData.success();
+    public ResponseData<CaptchaVo> captcha(HttpServletRequest httpServletRequest){
+        ArithmeticCaptcha arithmeticCaptcha = new ArithmeticCaptcha();
+        String text = arithmeticCaptcha.text();
+        HttpSession session = httpServletRequest.getSession();
+        session.setAttribute("captcha",text);
+        CaptchaVo captchaVo  = new CaptchaVo();
+        captchaVo.setImages(arithmeticCaptcha.toBase64());
+        return ResponseData.success(captchaVo);
     }
-
 
     @GetMapping(value = "code")
     public ResponseData<AccessModel> code(@RequestParam(value = "code") String code, HttpServletResponse response){

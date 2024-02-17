@@ -1,6 +1,5 @@
 package com.metocs.common.cache.config;
 
-import com.alibaba.nacos.common.notify.listener.Subscriber;
 import com.github.benmanes.caffeine.cache.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,7 @@ import org.springframework.data.redis.connection.MessageListener;
  */
 public class CaffeineSubscribe implements MessageListener {
 
-    private final static Logger logger = LoggerFactory.getLogger(Subscriber.class);
+    private final static Logger logger = LoggerFactory.getLogger(CaffeineSubscribe.class);
 
     private final Cache<String, Object> cache;
 

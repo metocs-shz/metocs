@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "oauth2",
+      "type": "com.metocs.authorization.properties.SecurityOauthProperties",
+      "sourceType": "com.metocs.authorization.properties.SecurityOauthProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "oauth2.clients",
+      "type": "java.util.List<com.metocs.authorization.properties.ClientProperties>",
+      "sourceType": "com.metocs.authorization.properties.SecurityOauthProperties"
+    }
+  ],
+  "hints": []
+}

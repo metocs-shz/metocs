@@ -27,6 +27,7 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
@@ -81,6 +82,7 @@ public class SecurityConfig {
             throws Exception {
         http.authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(new AntPathRequestMatcher("/code"),
+                                new AntPathRequestMatcher("/captcha"),
                                 new AntPathRequestMatcher("/captcha/login"),
                                 new AntPathRequestMatcher("/mobile/login")).permitAll()
                         .anyRequest().authenticated()
@@ -92,9 +94,9 @@ public class SecurityConfig {
 
         ProviderManager providerManager = providerManager();
         // 添加用户名密码登录方式
-        http.addFilter(new CaptchaUsernamePasswordFilter(providerManager));
+        http.addFilterAfter(new CaptchaUsernamePasswordFilter(providerManager), UsernamePasswordAuthenticationFilter.class);
         // 添加手机号验证码登录方式
-        http.addFilter(new SmsAuthenticationProcessingFilter(providerManager));
+        http.addFilterAfter(new SmsAuthenticationProcessingFilter(providerManager), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

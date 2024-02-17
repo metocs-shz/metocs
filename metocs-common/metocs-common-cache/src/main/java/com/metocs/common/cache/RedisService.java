@@ -9,6 +9,7 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -38,6 +39,9 @@ public class RedisService {
         return redisTemplate.hasKey(key);
     }
 
+    public void set(String key,Object data){
+        redisTemplate.opsForValue().set(key,data, Duration.ofSeconds(300L));
+    }
 
 
     public void set(String key,Object data,Long ttl){
@@ -85,27 +89,17 @@ public class RedisService {
         return redisTemplate.opsForList().leftPop(key);
     }
 
-    public Object lpopString(String key) {
-         return redisTemplate.opsForList().leftPop(key);
-    }
 
     public Object rpop(String key) {
         return redisTemplate.opsForList().rightPop(key);
     }
 
-    public Object rpopString(String key) {
-        return redisTemplate.opsForList().rightPop(key);
-    }
 
     public void sadd(String key,Object... data) {
         redisTemplate.opsForSet().add(key,data);
     }
 
     public Object spop(String key) {
-        return redisTemplate.opsForSet().pop(key);
-    }
-
-    public Object spopString(String key) {
         return redisTemplate.opsForSet().pop(key);
     }
 
@@ -118,22 +112,27 @@ public class RedisService {
         return redisTemplate.opsForHash().get(key,filed);
     }
 
-    public String hgetString(String key,String filed) {
-        Object data = redisTemplate.opsForHash().get(key, filed);
-        return data == null?"":data.toString();
-    }
-
     public Map<Object, Object> hgetAll(String key) {
         return redisTemplate.opsForHash().entries(key);
     }
 
 
     public void subscribe(String channel,MessageListener messageListener){
+        Assert.notNull(messageListener,"listener is null ！");
+        Assert.hasText(channel,"channel is cant be empty ！");
+        if (logger.isDebugEnabled()){
+            logger.debug("开始进行消息订阅 频道：{} 订阅者：{}",channel,messageListener.getClass().getName());
+        }
         MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter(messageListener);
         redisMessageListenerContainer.addMessageListener(messageListenerAdapter, ChannelTopic.of(channel));
     }
 
     public void publish(String channel,String message){
+        Assert.hasText(channel,"channel is cant be empty ！");
+        Assert.hasText(message,"message is cant be empty ！");
+        if (logger.isDebugEnabled()){
+            logger.debug("消息发布 频道: {} 消息内容： {}",channel,message);
+        }
         redisTemplate.convertAndSend(channel,message);
     }
 }

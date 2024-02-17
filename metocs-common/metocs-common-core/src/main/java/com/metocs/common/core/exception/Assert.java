@@ -20,5 +20,11 @@ public class Assert {
         }
     }
 
+    public static void notNull(Object data, String message) {
+       if (data == null){
+           throw new CommonException(message);
+       }
+    }
+
 
 }

@@ -13,6 +13,7 @@
         <module>metocs-common</module>
         <module>metocs-authorization-server</module>
         <module>metocs-common/metocs-common-cache</module>
+        <module>metocs-gateway</module>
     </modules>
 
     <properties>
